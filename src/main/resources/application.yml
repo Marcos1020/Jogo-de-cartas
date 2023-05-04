@@ -1,0 +1,15 @@
+server:
+  port: 8090
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: cartas
+    password: cartas
+  jpa:
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      database: postgresql
+      open-in-view: false
+      hibernate:
+        ddl-auto: none
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

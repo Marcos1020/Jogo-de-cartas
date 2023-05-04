@@ -1,0 +1,15 @@
+version: '3'
+volumes:
+  postgre_data:
+    driver: local
+services:
+  postgres:
+    image: postgres:10.17
+    container_name: jogo_de_cartas
+    environment:
+      - "POSTGRES_PASSWORD=cartas"
+      - "POSTGRES_USER=cartas"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgre_data:/var/lib/postgres
