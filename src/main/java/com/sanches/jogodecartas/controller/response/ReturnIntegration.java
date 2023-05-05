@@ -18,6 +18,7 @@ public class ReturnIntegration {
     private String deckId;
 
     private Integer remaining;
+
     private boolean shuffled;
 
 }
