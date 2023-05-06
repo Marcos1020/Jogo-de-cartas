@@ -19,3 +19,5 @@ feign:
     config:
       create-deck-game:
         url: https://deckofcardsapi.com/api/deck
+      draw-card-initialazer-game:
+        url: https://deckofcardsapi.com/api/deck
