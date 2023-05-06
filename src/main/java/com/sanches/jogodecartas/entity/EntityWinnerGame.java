@@ -27,6 +27,10 @@ public class EntityWinnerGame {
     @Column(name = "ID_RODADA")
     private Long idRodada;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_GAME")
+    private EntityInitializerGame initializerGame;
+
     @Column(name = "VENCEDOR_DA_RODADA")
     private String vencedorDaRodada;
 
