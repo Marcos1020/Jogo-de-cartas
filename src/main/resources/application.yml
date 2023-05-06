@@ -21,3 +21,9 @@ feign:
         url: https://deckofcardsapi.com/api/deck
       draw-card-initialazer-game:
         url: https://deckofcardsapi.com/api/deck
+
+url-que-lista-decks-validos:
+  url: "http://localhost:8090/v1/api/jogo-de-cartas/list/all"
+
+url-que-gera-um-novo-deck:
+  url: "http://localhost:8090/v1/api/jogo-de-cartas/"
