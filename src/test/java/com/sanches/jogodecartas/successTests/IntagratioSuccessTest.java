@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,6 +31,10 @@ import static org.junit.Assert.assertEquals;
 @Slf4j
 public class IntagratioSuccessTest {
 
+    @Value("${url-que-lista-decks-validos.url}")
+    private String urlListaDecks;
+    @Value("${url-que-gera-um-novo-deck.url}")
+    private String urlQueGeraNovoDeck;
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
     @Autowired
@@ -41,7 +46,7 @@ public class IntagratioSuccessTest {
     @Test
     public void mustCreateANewNeckToStartAGame() throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8090/v1/api/jogo-de-cartas/")
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(urlQueGeraNovoDeck)
                         .param("deck_count", "2"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
@@ -51,13 +56,13 @@ public class IntagratioSuccessTest {
 
         assertThat(entityReturn).isNotNull();
         assertThat(entityReturn.getRemaining()).isEqualTo(104);
-        assertThat(entityReturn.getIdGame()).isEqualTo(13);
+        assertThat(entityReturn.getIdGame()).isEqualTo(14);
     }
 
     @Test
     public void shouldReturnAListOfAllDecksRegisteredInTheDatabase() throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8090/v1/api/jogo-de-cartas/list/all"))
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(urlListaDecks))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
