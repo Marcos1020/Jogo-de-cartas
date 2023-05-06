@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CreateDeckIntegration {
 
     @GetMapping(value = "/new/shuffle/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    ReturnIntegration initializerGame(
+    ReturnIntegration initializerNewDeck(
             @RequestParam("deck_count")final Integer deckCount)throws BadRequestException;
 }
