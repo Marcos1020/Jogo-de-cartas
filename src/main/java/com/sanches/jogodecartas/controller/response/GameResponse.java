@@ -14,8 +14,12 @@ import java.util.Date;
 public class GameResponse {
 
     private Long idGame;
+
     private Integer remaining;
+
     private String deckId;
+
     private Date dateRegister;
 
+    private WinnerGameResponse winnerGameResponse;
 }
