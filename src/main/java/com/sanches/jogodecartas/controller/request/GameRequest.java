@@ -1,5 +1,6 @@
 package com.sanches.jogodecartas.controller.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GameRequest {
 
-    private String deckInitializer;
-    private Integer deckCount;
+    @JsonProperty("deck_id")
+    private String deckId;
+
+    @JsonProperty("count")
+    private Integer countDraw;
 }
