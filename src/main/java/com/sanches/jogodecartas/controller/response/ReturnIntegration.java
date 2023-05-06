@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -20,5 +22,9 @@ public class ReturnIntegration {
     private Integer remaining;
 
     private boolean shuffled;
+
+    private String value;
+
+    private List<ReturnIntegrationCards> cards;
 
 }
