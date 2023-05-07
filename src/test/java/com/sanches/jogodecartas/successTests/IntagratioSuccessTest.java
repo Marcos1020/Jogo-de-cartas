@@ -28,13 +28,12 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration
 @AutoConfigureMockMvc
-@Slf4j
 public class IntagratioSuccessTest {
 
-    @Value("${url-que-lista-decks-validos.url}")
-    private String urlListaDecks;
     @Value("${url-que-gera-um-novo-deck.url}")
     private String urlQueGeraNovoDeck;
+    @Value("${url-que-lista-decks-validos.url}")
+    private String urlListaDecks;
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
     @Autowired
@@ -74,7 +73,7 @@ public class IntagratioSuccessTest {
         Optional<Integer> remaining = Optional.of(104);
 
         assertThat(entityList).isNotNull();
-        assertEquals(3, entityList.size());
+        assertEquals(4, entityList.size());
         assertEquals(remaining, Optional.ofNullable(entityList.get(0).getRemaining()));
         assertThat(entityList.get(2).getIdGame()).isEqualTo(13);
     }
