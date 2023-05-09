@@ -9,12 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class ReturnIntegrationCards {
+public class Cards {
 
     private String value;
 
     private String suit;
 
     private String code;
-
 }
