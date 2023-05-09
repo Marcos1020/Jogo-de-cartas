@@ -10,4 +10,6 @@ public class GameConstants {
     public final String SQ_INITIALIZER_GAME = "sq_tb_initializer_game";
 
     public final String ERROR_INITIALIZER_GAME = "O parametro deckCount não pode ser 0, favor insira um numero de baralhos para iniciar o jogo";
+
+    public final String ERROR_NULL_DECK_COUNT = "O parametro deckCount não pode ser nulo";
 }
