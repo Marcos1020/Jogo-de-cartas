@@ -16,5 +16,5 @@ public class GameRequest {
     private String deckId;
 
     @JsonProperty("count")
-    private Integer countDraw;
+    private Integer count;
 }
