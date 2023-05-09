@@ -20,4 +20,5 @@ public class WinnerGameResponse {
     private Long pontuacaoVencedor;
 
     private Date dateRegister;
+
 }
