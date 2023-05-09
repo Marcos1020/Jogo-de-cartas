@@ -6,6 +6,7 @@ import com.sanches.jogodecartas.entity.EntityInitializerGame;
 import com.sanches.jogodecartas.entity.EntityWinnerGame;
 import com.sanches.jogodecartas.exception.BadRequestException;
 import com.sanches.jogodecartas.service.GameService;
+import feign.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,12 +38,12 @@ public class GameController {
 
     @GetMapping("list/all")
     public List<EntityInitializerGame> getAll() {
-        return gameService.getAll();
+        return gameService.getAllDecks();
     }
 
     @PostMapping("initializer/game-play")
     public ResponseEntity<?> initializerGame(
-           @Valid @RequestBody GameRequest gameRequest) throws BadRequestException {
+            @Valid @RequestBody GameRequest gameRequest) throws BadRequestException {
         GameResponse gameResponse = this.gameService.gamePlay(gameRequest);
         return new ResponseEntity<>(gameResponse, HttpStatus.OK);
     }
