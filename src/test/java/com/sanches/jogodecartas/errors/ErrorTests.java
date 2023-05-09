@@ -31,4 +31,16 @@ public class ErrorTests {
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
     }
+
+    @Test
+    public void mustTestANullReturn(){
+
+        BadRequestException exception = assertThrows(BadRequestException.class, () ->{
+            gameService.initializerGame(null);
+        });
+
+        String expectedMessage = GameConstants.ERROR_NULL_DECK_COUNT;
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
 }
