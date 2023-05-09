@@ -25,6 +25,6 @@ public class ReturnIntegration {
 
     private String value;
 
-    private List<ReturnIntegrationCards> cards;
+    private List<Cards> cards;
 
 }
