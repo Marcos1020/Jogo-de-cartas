@@ -1,6 +1,6 @@
-package com.sanches.jogodecartas.integrationGame;
+package com.sanches.jogodecartas.integrationgame;
 
-import com.sanches.jogodecartas.controller.response.ReturnIntegration;
+import com.sanches.jogodecartas.controller.response.ReturnIntegrationResponse;
 import com.sanches.jogodecartas.exception.BadRequestException;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CreateDeckIntegration {
 
     @GetMapping(value = "/new/shuffle/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    ReturnIntegration initializerNewDeck(
+    ReturnIntegrationResponse initializerNewDeck(
             @RequestParam("deck_count")final Integer deckCount)throws BadRequestException;
 }
