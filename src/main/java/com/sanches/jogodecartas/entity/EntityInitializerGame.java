@@ -19,7 +19,7 @@ import java.util.Date;
 @Entity
 @Builder
 @Table(name = "TB_INITIALIZER_GAME")
-@SequenceGenerator(name = "sq_tb_initializer_game", sequenceName = GameConstants.SQ_INITIALIZER_GAME, allocationSize = 1)
+@SequenceGenerator(name = "sq_tb_initializer_game", sequenceName = GameConstants.SQ_INITIALIZER_GAME, allocationSize = 0)
 public class EntityInitializerGame {
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_tb_initializer_game")
@@ -28,7 +28,7 @@ public class EntityInitializerGame {
     private Long idGame;
 
     @Column(name = "DECK_ID")
-    private String deck_id;
+    private String deckId;
 
     @Column(name = "REMAINING")
     private Integer remaining;
