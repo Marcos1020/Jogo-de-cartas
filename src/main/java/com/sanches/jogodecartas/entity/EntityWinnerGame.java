@@ -18,7 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "TB_VENCEDORES")
+@Table(name = "TB_WINNERS")
 @SequenceGenerator(name = "sq_tb_winners", sequenceName = GameConstants.SQ_TB_VENCEDORES, allocationSize = 0)
 public class EntityWinnerGame {
 
