@@ -1,4 +1,4 @@
-package com.sanches.jogodecartas.controller.response;
+package com.sanches.jogodecartas.controller.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class Hand {
+public class HandRequest {
 
     private String playerName;
 
-    private List<Cards> cards;
+    private List<CardsRequest> cards;
 
 }
