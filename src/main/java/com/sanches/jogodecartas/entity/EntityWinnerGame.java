@@ -19,23 +19,23 @@ import java.util.Date;
 @Entity
 @Builder
 @Table(name = "TB_VENCEDORES")
-@SequenceGenerator(name = "sq_tb_vencedores", sequenceName = GameConstants.SQ_TB_VENCEDORES, allocationSize = 1)
+@SequenceGenerator(name = "sq_tb_winners", sequenceName = GameConstants.SQ_TB_VENCEDORES, allocationSize = 0)
 public class EntityWinnerGame {
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_tb_vencedores")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_tb_winners")
     @Id
-    @Column(name = "ID_RODADA")
-    private Long idRodada;
+    @Column(name = "ID_ROUND")
+    private Long idRound;
 
     @ManyToOne
     @JoinColumn(name = "ID_GAME")
     private EntityInitializerGame initializerGame;
 
-    @Column(name = "VENCEDOR_DA_RODADA")
-    private String vencedorDaRodada;
+    @Column(name = "ROUND_WINNER")
+    private String roundWinner;
 
-    @Column(name = "PONTUAÇÃO_VENCEDOR")
-    private Long pontuacaoVencedor;
+    @Column(name = "SCORE_WINNER")
+    private Integer scoreWinner;
 
     @JsonDeserialize(using = DateAndTimeDeserializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = ConverterUtil.FORMATO_DATA)
