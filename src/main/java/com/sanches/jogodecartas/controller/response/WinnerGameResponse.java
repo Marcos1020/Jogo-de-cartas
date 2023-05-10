@@ -13,11 +13,13 @@ import java.util.Date;
 @Builder
 public class WinnerGameResponse {
 
-    private Long idRodada;
+    private Long idRound;
 
-    private String vencedorDaRodada;
+    private Long idGame;
 
-    private Long pontuacaoVencedor;
+    private String roundWinner;
+
+    private Integer scoreWinner;
 
     private Date dateRegister;
 
