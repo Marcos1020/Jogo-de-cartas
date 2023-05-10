@@ -1,15 +1,19 @@
 package com.sanches.jogodecartas.service;
 
 import com.sanches.jogodecartas.calculatewinner.CalculateAndReturnWinner;
+import com.sanches.jogodecartas.controller.request.CardsRequest;
 import com.sanches.jogodecartas.controller.request.GameRequest;
+import com.sanches.jogodecartas.controller.request.HandRequest;
 import com.sanches.jogodecartas.controller.response.*;
 import com.sanches.jogodecartas.conversoes.Conversoes;
 import com.sanches.jogodecartas.entity.EntityInitializerGame;
+import com.sanches.jogodecartas.entity.EntityWinnerGame;
 import com.sanches.jogodecartas.exception.BadRequestException;
-import com.sanches.jogodecartas.integrationGame.CreateDeckIntegration;
-import com.sanches.jogodecartas.integrationGame.InitializerGameIntegration;
+import com.sanches.jogodecartas.integrationgame.CreateDeckIntegration;
+import com.sanches.jogodecartas.integrationgame.InitializerGameIntegration;
 import com.sanches.jogodecartas.repository.GameInitializerRepository;
 import com.sanches.jogodecartas.repository.GameWinnerRepository;
+import com.sanches.jogodecartas.utils.ConverterUtil;
 import com.sanches.jogodecartas.utils.GameConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +61,7 @@ public class GameService {
             log.info(GameConstants.ERROR_NULL_DECK_COUNT);
             throw new BadRequestException(GameConstants.ERROR_NULL_DECK_COUNT);
         }
-        ReturnIntegration returnIntegration = this.deckIntegration.initializerNewDeck(deckCount);
+        ReturnIntegrationResponse returnIntegration = this.deckIntegration.initializerNewDeck(deckCount);
 
         EntityInitializerGame initializerGame = conversoes.convertReturnIntegrationToEntityInitializerGame(returnIntegration);
         EntityInitializerGame initializerGameSave = this.initializerRepository.save(initializerGame);
@@ -71,34 +75,39 @@ public class GameService {
         return initializerRepository.findAll();
     }
 
-    public GameResponse gamePlay(GameRequest gameRequest) throws BadRequestException {
+    public WinnerGameResponse gamePlay(GameRequest gameRequest) throws BadRequestException {
 
-        ReturnIntegration returnIntegration = this.gameIntegration.initializerGame(gameRequest.getDeckId(), gameRequest.getCount());
-        List<Cards> cards = returnIntegration.getCards();
+        ReturnIntegrationResponse returnIntegration = this.gameIntegration.initializerGame(gameRequest.getDeckId(), gameRequest.getCount());
+        List<CardsRequest> cards = returnIntegration.getCards();
 
-        if (gameRequest.getCount() < returnIntegration.getRemaining()){
-            log.info("Erro, Numero de cartas menor que o solicitado");
-            throw new BadRequestException("Erro, Numero de cartas menor que o solicitado");
-
+        if (gameRequest.getCount() > returnIntegration.getRemaining()){
+            log.info(GameConstants.ERROR_DRAW_DECK);
+            throw new BadRequestException(GameConstants.ERROR_DRAW_DECK);
         }
 
-        List<Hand> hands = new ArrayList<>();
-        hands.add(new Hand("Jessica", cards.subList(0, 5)));
-        hands.add(new Hand("Valentina", cards.subList(5, 10)));
-        hands.add(new Hand("Cristofer", cards.subList(10, 15)));
-        hands.add(new Hand("Marcos", cards.subList(15, 20)));
+        List<HandRequest> hands = new ArrayList<>();
+        hands.add(new HandRequest("Jessica", cards.subList(0, 5)));
+        hands.add(new HandRequest("Valentina", cards.subList(5, 10)));
+        hands.add(new HandRequest("Cristofer", cards.subList(10, 15)));
+        hands.add(new HandRequest("Marcos", cards.subList(15, 20)));
 
-        int maxScore = 0;
-        List<Hand> winners = new ArrayList<>();
-        for (Hand hand : hands) {
+        EntityInitializerGame initializerGame = this.initializerRepository.findByDeckId(gameRequest.getDeckId());
+
+        EntityWinnerGame winnerGameSave = EntityWinnerGame.builder().build();
+        Integer maxScore = 0;
+        EntityWinnerGame winnerGame = EntityWinnerGame.builder().build();
+        List<HandRequest> winners = new ArrayList<>();
+        for (HandRequest hand : hands) {
             maxScore = calculate.getMaxScore(maxScore, winners, hand);
+            winnerGame.setScoreWinner(maxScore);
+            winnerGame.setRoundWinner(hand.getPlayerName());
+            winnerGame.setDateRegister(ConverterUtil.nowTime());
+            winnerGame.setInitializerGame(initializerGame);
         }
 
-        GameResponse gameResponse = GameResponse.builder().build();
-        gameResponse.getWinnerGameResponse().getPontuacaoVencedor();
-        gameResponse.getWinnerGameResponse().getIdRodada();
-        gameResponse.getWinnerGameResponse().getVencedorDaRodada();
-
-        return gameResponse;
+        if (winnerGame.getScoreWinner().equals(maxScore)){
+            winnerGameSave = this.gameRepository.save(winnerGame);
+        }
+        return  conversoes.convertEntityToResponseWinnerGame(winnerGameSave);
     }
 }
