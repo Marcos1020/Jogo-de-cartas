@@ -1,6 +1,7 @@
 package com.sanches.jogodecartas.controller.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sanches.jogodecartas.controller.request.CardsRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class ReturnIntegration {
+public class ReturnIntegrationResponse {
 
     private boolean success;
 
@@ -23,8 +24,6 @@ public class ReturnIntegration {
 
     private boolean shuffled;
 
-    private String value;
-
-    private List<Cards> cards;
+    private List<CardsRequest> cards;
 
 }
