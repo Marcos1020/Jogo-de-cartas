@@ -1,7 +1,7 @@
 package com.sanches.jogodecartas.calculatewinner;
 
-import com.sanches.jogodecartas.controller.response.Cards;
-import com.sanches.jogodecartas.controller.response.Hand;
+import com.sanches.jogodecartas.controller.request.CardsRequest;
+import com.sanches.jogodecartas.controller.request.HandRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +14,7 @@ import static java.util.Map.entry;
 @Configuration
 public class CalculateAndReturnWinner {
 
-    public int getMaxScore(int maxScore, List<Hand> winners, Hand hand) {
+    public int getMaxScore(int maxScore, List<HandRequest> winners, HandRequest hand) {
         int score = calculateScore(hand.getCards());
         if (score > maxScore) {
             maxScore = score;
@@ -34,9 +34,9 @@ public class CalculateAndReturnWinner {
             entry("JACK", 11)
     );
 
-    private int calculateScore(List<Cards> cards) {
+    private int calculateScore(List<CardsRequest> cards) {
         int score = 0;
-        for (Cards card : cards) {
+        for (CardsRequest card : cards) {
             if(cardValues.containsKey(card.getValue())){
                 score += cardValues.get(card.getValue());
             } else {
