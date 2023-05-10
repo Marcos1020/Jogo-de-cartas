@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GameInitializerRepository extends JpaRepository<EntityInitializerGame, Long> {
+
+    public EntityInitializerGame findByDeckId(final String deckId);
 }
