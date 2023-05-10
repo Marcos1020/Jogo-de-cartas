@@ -22,8 +22,11 @@ feign:
       draw-card-initialazer-game:
         url: https://deckofcardsapi.com/api/deck
 
-url-que-lista-decks-validos:
-  url: "http://localhost:8090/v1/api/jogo-de-cartas/list/all"
+url-which-lists-valid-decks:
+  url: "http://localhost:8090/v1/api/cards-game/list/all"
 
-url-que-gera-um-novo-deck:
-  url: "http://localhost:8090/v1/api/jogo-de-cartas/"
+url-that-generates-a-new-deck:
+  url: "http://localhost:8090/v1/api/cards-game/"
+
+url-que-inicia-o-jogo:
+  url: "http://localhost:8090/v1/api/cards-game/initializer/game-play/"
