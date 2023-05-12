@@ -5,7 +5,7 @@ import com.sanches.jogodecartas.controller.request.CardsRequest;
 import com.sanches.jogodecartas.controller.request.GameRequest;
 import com.sanches.jogodecartas.controller.request.HandRequest;
 import com.sanches.jogodecartas.controller.response.*;
-import com.sanches.jogodecartas.conversoes.Conversoes;
+import com.sanches.jogodecartas.conversoes.Convertions;
 import com.sanches.jogodecartas.entity.EntityInitializerGame;
 import com.sanches.jogodecartas.entity.EntityWinnerGame;
 import com.sanches.jogodecartas.exception.BadRequestException;
@@ -13,7 +13,6 @@ import com.sanches.jogodecartas.integrationgame.CreateDeckIntegration;
 import com.sanches.jogodecartas.integrationgame.InitializerGameIntegration;
 import com.sanches.jogodecartas.repository.GameInitializerRepository;
 import com.sanches.jogodecartas.repository.GameWinnerRepository;
-import com.sanches.jogodecartas.utils.ConverterUtil;
 import com.sanches.jogodecartas.utils.GameConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ import java.util.List;
 @Component
 public class GameService {
 
-    private final Conversoes conversoes;
+    private final Convertions convertions;
     private GameInitializerRepository initializerRepository;
     private GameWinnerRepository gameRepository;
     private CreateDeckIntegration deckIntegration;
@@ -37,12 +36,12 @@ public class GameService {
     private CalculateAndReturnWinner calculate;
 
     @Autowired
-    public GameService(Conversoes conversoes,
+    public GameService(Convertions convertions,
                        GameInitializerRepository initializerRepository,
                        GameWinnerRepository gameRepository,
                        CreateDeckIntegration deckIntegration,
                        InitializerGameIntegration gameIntegration, CalculateAndReturnWinner calculate){
-        this.conversoes = conversoes;
+        this.convertions = convertions;
         this.initializerRepository = initializerRepository;
         this.gameRepository = gameRepository;
         this.deckIntegration = deckIntegration;
@@ -63,10 +62,10 @@ public class GameService {
         }
         ReturnIntegrationResponse returnIntegration = this.deckIntegration.initializerNewDeck(deckCount);
 
-        EntityInitializerGame initializerGame = conversoes.convertReturnIntegrationToEntityInitializerGame(returnIntegration);
+        EntityInitializerGame initializerGame = convertions.convertReturnIntegrationToEntityInitializerGame(returnIntegration);
         EntityInitializerGame initializerGameSave = this.initializerRepository.save(initializerGame);
 
-        GameResponse gameResponse = conversoes.convertEntityInitializerGameToGameResponse(initializerGameSave);
+        GameResponse gameResponse = convertions.convertEntityInitializerGameToGameResponse(initializerGameSave);
         return gameResponse;
     }
 
@@ -86,28 +85,18 @@ public class GameService {
         }
 
         List<HandRequest> hands = new ArrayList<>();
-        hands.add(new HandRequest("Jessica", cards.subList(0, 5)));
-        hands.add(new HandRequest("Valentina", cards.subList(5, 10)));
-        hands.add(new HandRequest("Cristofer", cards.subList(10, 15)));
-        hands.add(new HandRequest("Marcos", cards.subList(15, 20)));
+        convertions.hands(cards, hands);
 
         EntityInitializerGame initializerGame = this.initializerRepository.findByDeckId(gameRequest.getDeckId());
 
         EntityWinnerGame winnerGameSave = EntityWinnerGame.builder().build();
         Integer maxScore = 0;
         EntityWinnerGame winnerGame = EntityWinnerGame.builder().build();
-        List<HandRequest> winners = new ArrayList<>();
-        for (HandRequest hand : hands) {
-            maxScore = calculate.getMaxScore(maxScore, winners, hand);
-            winnerGame.setScoreWinner(maxScore);
-            winnerGame.setRoundWinner(hand.getPlayerName());
-            winnerGame.setDateRegister(ConverterUtil.nowTime());
-            winnerGame.setInitializerGame(initializerGame);
-        }
+        maxScore = calculate.getInteger(hands, initializerGame, maxScore, winnerGame);
 
         if (winnerGame.getScoreWinner().equals(maxScore)){
             winnerGameSave = this.gameRepository.save(winnerGame);
         }
-        return  conversoes.convertEntityToResponseWinnerGame(winnerGameSave);
+        return  convertions.convertEntityToResponseWinnerGame(winnerGameSave);
     }
 }
