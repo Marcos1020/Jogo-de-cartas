@@ -1,5 +1,7 @@
 package com.sanches.jogodecartas.conversoes;
 
+import com.sanches.jogodecartas.controller.request.CardsRequest;
+import com.sanches.jogodecartas.controller.request.HandRequest;
 import com.sanches.jogodecartas.controller.response.GameResponse;
 import com.sanches.jogodecartas.controller.response.ReturnIntegrationResponse;
 import com.sanches.jogodecartas.controller.response.WinnerGameResponse;
@@ -9,9 +11,11 @@ import com.sanches.jogodecartas.utils.ConverterUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Slf4j
 @Configuration
-public class Conversoes {
+public class Convertions {
 
     public static EntityInitializerGame convertReturnIntegrationToEntityInitializerGame(ReturnIntegrationResponse returnIntegration) {
         EntityInitializerGame initializerGame = EntityInitializerGame.builder().build();
@@ -39,5 +43,12 @@ public class Conversoes {
         winnerGameResponse.setDateRegister(ConverterUtil.nowTime());
 
         return winnerGameResponse;
+    }
+
+    public static void hands(List<CardsRequest> cards, List<HandRequest> hands) {
+        hands.add(new HandRequest("Jessica", cards.subList(0, 5)));
+        hands.add(new HandRequest("Valentina", cards.subList(5, 10)));
+        hands.add(new HandRequest("Cristofer", cards.subList(10, 15)));
+        hands.add(new HandRequest("Marcos", cards.subList(15, 20)));
     }
 }
